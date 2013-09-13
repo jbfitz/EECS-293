@@ -8,6 +8,7 @@ Date: 9/9/13
 """
 
 import copy
+import random
 import sys
 
 			
@@ -188,3 +189,101 @@ class MazeRoute(object):
 		return travel_time
 			
 
+
+class Maze(object):
+	"""
+	A representation of a maze, a collection of cells that are all connected
+	Cells are not stored in any order
+	"""
+	def __init__(self):
+		self.valid = False
+		self._cells = set()
+		pass
+
+	def __str__(self):
+		if not self.valid:
+			return "Uninitialized Maze"
+
+		strfrm = ""
+
+		for cell in self._cells:
+			if not cell.valid:
+				raise UninitializedObjectexception()			
+
+			strfrm = strfrm + "\n" + str(cell)
+		
+			if len(cell.passages()) == 0:
+				strfrm + "\n\tNo passages"
+
+			for dest, time in cell.passages().iteritems():
+				strfrm + "\n\t" + str(dest) + ": " + str(time)
+				
+		return strfrm
+	
+	def add_cells(self, cells):
+		"""
+		Takes a list of iterable collection of cells
+
+		Returns false and does not change the maze's cells if already set
+		Otherwise, sets the mazes _cells to a copy of the input
+
+		Raises UintializedObjectException if any of the inputed cells are invalid
+		"""
+		if self.valid:
+			return False
+		
+		if any(not cell.valid for cell in cells):
+			raise UninitializedObjectExcption()
+
+		self._cells = set(copy.copy(cells))
+		self.valid = True
+		return True
+
+	def route_first(self, initial_cell):
+		"""
+		Starting from the initial input, randomly explores the maze until a dead end, exit, or loopis encountered
+
+		Returns an empty list if a valid cell outside of the maze is encountered.
+
+		Raises a UnitializedObjectException if either the maze or the cells along the path are invalid
+		"""
+		self.valid_or_raise()
+
+		current_cell = initial_cell
+		visited_cells = []
+
+		while True:
+			if not current_cell.valid:
+				raise UninitializedObjectException
+
+			if not current_cell in self._cells:
+				return []
+
+			visited_cells.append(current_cell)
+
+			if not current_cell.is_dead_end() and (not current_cell in visited_cells):
+				return MazeRoute(visited_cells)
+
+			current_cell = random.choice(current_cell.connected_cells())
+
+			
+	def valid_or_raise(self):
+		"""
+		Checks to see if maze is valid. 
+		Raise a UninitializedObjectException if this route is not valid
+		"""
+		if not self.valid: raise UninitializedObjectException()
+
+
+			
+			
+				
+
+	
+
+
+
+
+
+		
+		
