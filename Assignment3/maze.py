@@ -289,6 +289,9 @@ class Maze(object):
 				return_route.add_cells(visited_cells)
 				break
 	
+
+			# This line must be after the already visited check
+			# to avoid a tautology
 			visited_cells.append(current_cell)
 
 			if current_cell.is_dead_end():
