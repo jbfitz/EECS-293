@@ -120,6 +120,8 @@ class FourCellTestCase(TestCase):
 		self.route = MazeRoute()
 		self.maze = Maze()
 
+
+class FourCellValidTestCase(FourCellTestCase):
 	@setup
 	def build_maze(self):
 		self.cells[0].add_passages({self.cells[1]: 10, self.cells[2]: 20})
@@ -141,6 +143,25 @@ class FourCellTestCase(TestCase):
 		assert_equals(self.first_route.valid, True)
 		assert_gt(len(self.first_route.get_cells()), 1)
 		pass
+
+class FourCellOutsideMazeCase(FourCellTestCase):
+	@setup
+	def build_maze(self):
+		self.cells[0].add_passages({self.cells[1]: 10, self.cells[2]: 20})
+		self.cells[1].add_passages({self.cells[2]: 5, self.cells[3]: 40})
+		self.cells[2].add_passages({self.cells[3]: 5, self.cells[0]: 80})
+		self.cells[3].add_passages({self.cells[0]:0})
+
+		self.maze.add_cells([self.cells[3], self.cells[0]])
+		self.first_route = self.maze.route_first(self.cells[3])
+
+
+	def test_four_maze(self):
+		assert_equals(self.first_route.valid, True)
+		assert_equals(len(self.first_route.get_cells()), 0)
+		assert_raises(UninitializedObjectException, self.first_route.travel_time)
+		pass
+
 
 
 

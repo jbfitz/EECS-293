@@ -16,8 +16,9 @@ class UninitializedObjectException(ValueError):
 	"""
 	An error raised when an object isn't initialized.
     
-	In pur current sense, this means that a cell has not been connected to any other cell, 
-	even if that connection is impassible
+	In our current sense, this means that a cell has not
+	been connected to any other cell, even if that connection 
+	is impassible
 	"""
 	pass
 		
@@ -61,7 +62,11 @@ class MazeCell(object):
 		return True
 	
 	def passages(self):
-		"""Returns the passages of the MazeRoute. Raises UninitializedObjectException if the cell is invalid."""
+		"""
+		Returns the passages of the MazeRoute. 
+	
+		Raises UninitializedObjectException if the cell is invalid.
+		"""
 		
 		self.valid_or_raise()
 
@@ -72,7 +77,12 @@ class MazeCell(object):
 		
 	def passage_time_to(self, cell):
 		"""
-		Return the time to go from this cell to another cell through its connections. If a cell is not currently connected, or unable to be reached, this will return sys.maxint. 
+		Return the time to go from this cell to another cell through 
+		its connections. 
+
+		If a cell is not currently connected, or unable to be reached, 
+		this will return sys.maxint. 
+
 		Raises UninitializedObjectException if this cell is currently invalid. 
 		"""
 		self.valid_or_raise()
@@ -93,9 +103,7 @@ class MazeCell(object):
 		return con_cells
 		
 	def is_dead_end(self):
-		"""
-		Looks to see if any moves from this cell are possible
-		"""
+		"""Looks to see if any moves from this cell are possible"""
 		connected_cells = self.connected_cells()
 		
 		if len(connected_cells) == 0:
@@ -105,9 +113,7 @@ class MazeCell(object):
 
 			       
 class MazeRoute(object):
-	"""
-	Represents a path, in order, of traversing several MazeCells
-	"""
+	"""Represents a path, in order, of traversing several MazeCells"""
 	
 	def __init__(self):
 		self.valid = False
@@ -126,8 +132,9 @@ class MazeRoute(object):
 			
 		for index in range(len(self._cells)):
 			if index != len(self._cells) - 1:
-				route_list.append(str(self._cells[index]) + " to " + str(self._cells[index+1]) +
-											": " + str(self._cells[index].passage_time_to(self._cells[index+1])))
+				route_list.append(str(self._cells[index]) + " to " + 
+					str(self._cells[index+1]) + ": " + 
+					str(self._cells[index].passage_time_to(self._cells[index+1])))
 			else:
 				route_list.append("End of route")
 				
@@ -185,6 +192,12 @@ class MazeRoute(object):
 		if len(self._cells) == 1:
 			return 0
 			
+		if len(self._cells) == 0:
+			# Since our maze returns an empty list if the maze route
+			# Leaves the maze, I decided that a route of no cells is
+			# Invalid as a cellless route makes no sense
+			raise UninitializedObjectException()
+
 		travel_time = 0
 		
 		for index in range(len(self._cells)-1):
@@ -229,7 +242,7 @@ class Maze(object):
 	
 	def add_cells(self, cells):
 		"""
-		Takes a list of iterable collection of cells
+		Takes a iterable collection of cells
 
 		Returns false and does not change the maze's cells if already set
 		Otherwise, sets the mazes _cells to a copy of the input
@@ -248,11 +261,13 @@ class Maze(object):
 
 	def route_first(self, initial_cell):
 		"""
-		Starting from the initial input, randomly explores the maze until a dead end, exit, or loopis encountered
+		Starting from the initial input, randomly explores the maze 
+		until a dead end, exit, or loop is encountered
 
 		Returns an empty list if a valid cell outside of the maze is encountered.
 
-		Raises a UnitializedObjectException if either the maze or the cells along the path are invalid
+		Raises a UnitializedObjectException if either the maze or the cells 
+		along the path are invalid
 		"""
 		self.valid_or_raise()
 
@@ -265,20 +280,23 @@ class Maze(object):
 				raise UninitializedObjectException()
 
 			if not current_cell in self._cells:
-				return []
+				return_route.add_cells([])
+				break
 			
 			if current_cell in visited_cells:
 				visited_cells.append(current_cell)
 				return_route.add_cells(visited_cells)
-				return return_route				
+				break
 	
 			visited_cells.append(current_cell)
 
 			if current_cell.is_dead_end():
 				return_route.add_cells(visited_cells)
-				return return_route				
+				break
 			
 			current_cell = random.choice(current_cell.connected_cells())
+
+		return return_route
 
 			
 	def valid_or_raise(self):
@@ -289,15 +307,3 @@ class Maze(object):
 		if not self.valid: raise UninitializedObjectException()
 
 
-			
-			
-				
-
-	
-
-
-
-
-
-		
-		
