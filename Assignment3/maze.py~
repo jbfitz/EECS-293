@@ -72,9 +72,7 @@ class MazeCell(object):
 		
 	def passage_time_to(self, cell):
 		"""
-		Return the time to go from this cell to another cell through its connections. 
-		If a cell is not currently connected, or unable to be reached, this will return sys.maxint. 
-
+		Return the time to go from this cell to another cell through its connections. If a cell is not currently connected, or unable to be reached, this will return sys.maxint. 
 		Raises UninitializedObjectException if this cell is currently invalid. 
 		"""
 		self.valid_or_raise()
@@ -128,9 +126,8 @@ class MazeRoute(object):
 			
 		for index in range(len(self._cells)):
 			if index != len(self._cells) - 1:
-				route_list.append(str(self._cells[index]) + " to " + 
-					str(self._cells[index+1]) + ": " + 
-					str(self._cells[index].passage_time_to(self._cells[index+1])))
+				route_list.append(str(self._cells[index]) + " to " + str(self._cells[index+1]) +
+											": " + str(self._cells[index].passage_time_to(self._cells[index+1])))
 			else:
 				route_list.append("End of route")
 				
@@ -292,3 +289,15 @@ class Maze(object):
 		if not self.valid: raise UninitializedObjectException()
 
 
+			
+			
+				
+
+	
+
+
+
+
+
+		
+		
