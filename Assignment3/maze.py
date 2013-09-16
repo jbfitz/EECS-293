@@ -300,7 +300,8 @@ class Maze(object):
 				return_route.add_cells(visited_cells)
 				break
 			
-			current_cell = random.choice(current_cell.connected_cells())
+			current_cell = current_cell.connected_cells()[0]
+			#random.choice(current_cell.connected_cells())
 
 		return return_route
 
