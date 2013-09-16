@@ -169,7 +169,7 @@ class MazeRoute(object):
 		return True
 		
 	def get_cells(self):
-		"""h
+		"""
 		Returns the list of cells in the route in order
 		Returns the list regardless of whether or not the route is passible
 		Raise a UninitializedObjectException if any cells are invalid
@@ -214,7 +214,7 @@ class MazeRoute(object):
 class Maze(object):
 	"""
 	A representation of a maze, a collection of cells that are all connected
-	Cells are not stored in any order
+	Cells are not stored in any particular order
 	"""
 	def __init__(self):
 		self.valid = False
@@ -277,14 +277,16 @@ class Maze(object):
 		return_route = MazeRoute()
 
 		while True:
-			if not current_cell.valid:
-				raise UninitializedObjectException()
+			current_cell.valid_or_raise()
 
 			if not current_cell in self._cells:
 				return_route.add_cells([])
 				break
 			
 			if current_cell in visited_cells:
+				# We stil want this cell to be in the route
+				# Although a loop kay present problems in 
+				# the future, the first lap is still a route
 				visited_cells.append(current_cell)
 				return_route.add_cells(visited_cells)
 				break
