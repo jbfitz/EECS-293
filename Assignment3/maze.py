@@ -70,7 +70,8 @@ class MazeCell(object):
 		
 		self.valid_or_raise()
 
-		reachablePassages = {key: value for key, value in self._connections.iteritems() if value != sys.maxint}
+		reachablePassages = {key: value for key, value in self._connections.iteritems()
+					if value != sys.maxint}
 		
 		return copy.copy(reachablePassages)
 		
@@ -168,7 +169,7 @@ class MazeRoute(object):
 		return True
 		
 	def get_cells(self):
-		"""
+		"""h
 		Returns the list of cells in the route in order
 		Returns the list regardless of whether or not the route is passible
 		Raise a UninitializedObjectException if any cells are invalid
