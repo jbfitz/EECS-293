@@ -1,0 +1,5 @@
+class Status(object):
+	OK, ALREADY_VALID, INVALID_TIME = range(3)
+	def __init__(self, stype = OK):
+		self.type = stype
+		
