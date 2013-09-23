@@ -17,21 +17,27 @@ class UninitializedObjectException(ValueError):
 	"""An error raised when an object isn't initialized."""
 	pass
 
-class Status(object):
-	"""A Status variable for the MazeCell class"""
-	OK, ALREADY_VALID, INVALID_TIME = "OK","ALREADY_VALID", "INVALID_TIME"
-	def __init__(self, stype = OK):
-		self.type = stype
-		
-		
+
+class Enum(set):
+	"""Enum implementation courtesy of shahjapan"""
+	def __getattr__(self, name):
+        	if name in self:
+        		return name
+        	raise AttributeError
+
+
+Status = Enum(["OK", "ALREADY_VALID", "INVALID_TIME"])
+
 class MazeCell(object):
 	"""This object represents a room within the maze."""
+
+
 
 	def __init__(self):
 		self._connections = {}
 		self.valid = False
 		self.status = Status.OK
-	
+			
 	def __hash__(self):
 		return id(self)
 		
@@ -254,10 +260,10 @@ class Maze(object):
 			strfrm = strfrm + "\n" + str(cell)
 		
 			if len(cell.passages()) == 0:
-				strfrm + "\n\tNo passages"
+				strfrm = strfrm + "\n\tNo passages"
 
 			for dest, time in cell.passages().iteritems():
-				strfrm + "\n\t" + str(dest) + ": " + str(time)
+				strfrm = strfrm + "\n\t" + str(dest) + ": " + str(time)
 				
 		return strfrm
 
@@ -316,6 +322,13 @@ class Maze(object):
 
 
 	def _recursive_routing(self, current_cell, visited_cells, next_cell_method):
+		"""
+		Recursively checks cells until a dead end or a recurring cell appears in the visited list
+
+		If current cell is not in the maze or not valid, return a route containing []
+
+		Uses passed in method to determine next cell to examine
+		"""
 		if not current_cell in self._cells or not current_cell.valid:
 			return_route = MazeRoute()
 			return_route.add_cells([])

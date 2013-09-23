@@ -128,8 +128,8 @@ class TwoCellConnected(TwoCellCase):
 		assert_equal(self.cell_two.passage_time_to(self.cell_one), 5)
 
 	def test_identical_path(self):
-		assert_equal(self.first_route.travel_time, 15)
-		assert_equal(self.random_route.travel_time, 15)
+		assert_equal(self.first_route.travel_time(), 15)
+		assert_equal(self.random_route.travel_time(), 15)
 		assert_equal(self.first_route.get_cells(), self.random_route.get_cells())
 		
 
@@ -203,8 +203,8 @@ class NetworkMazeCase(TestCase):
 			start.add_passages(passages)
 
 		self.maze.add_cells(self.cells)
-		self.random_route = self.maze.route_random(self.cells[4])
-		self.first_route = self.maze.route_first(self.cells[4])
+		self.random_route = self.maze.route_random(self.cells[5])
+		self.first_route = self.maze.route_first(self.cells[5])
 
 		attempts = 0
 		while attempts < 100 and self.first_route.travel_time() == self.random_route.travel_time():
@@ -218,7 +218,7 @@ class NetworkMazeCase(TestCase):
 			attempts += 1
 
 	def test_network_maze(self):
-		assert_gt(self.random_route.travel_time(), 10)
+		assert_gt(self.random_route.travel_time(), 10)s
 		assert_equals(self.first_route.travel_time(), 30)
 		assert_not_equal(self.random_route.travel_time(), self.first_route.travel_time())
 		assert_not_equal(self.random_route.travel_time(), self.random_travel_time)

@@ -203,8 +203,8 @@ class NetworkMazeCase(TestCase):
 			start.add_passages(passages)
 
 		self.maze.add_cells(self.cells)
-		self.random_route = self.maze.route_random(self.cells[4])
-		self.first_route = self.maze.route_first(self.cells[4])
+		self.random_route = self.maze.route_random(self.cells[5])
+		self.first_route = self.maze.route_first(self.cells[5])
 
 		attempts = 0
 		while attempts < 100 and self.first_route.travel_time() == self.random_route.travel_time():
