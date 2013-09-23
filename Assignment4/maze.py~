@@ -335,7 +335,7 @@ class Maze(object):
 			return_route.add_cells(visited_cells)
 			return return_route
 
-		sreturn self._recursive_routing(next_cell_method(current_cell.connected_cells()),
+		return self._recursive_routing(next_cell_method(current_cell.connected_cells()),
 								visited_cells, next_cell_method)
 		
 
