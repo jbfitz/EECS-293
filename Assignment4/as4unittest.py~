@@ -33,7 +33,7 @@ class InvalidTestCase(TestCase):
 
 	def test_cell_passage_invalid(self):
 		assert_equal(self.cell_two.valid, False)
-		assert_equal(self.cell_two.status, Status.INVALID_TIME)
+		assert_equal(self.cell_two.status, MazeCell.Status.INVALID_TIME)
 	
 	def test_route_invalid(self):
 		assert_equal(self.route_one.valid, False)
@@ -72,8 +72,8 @@ class TwoCellDeadEnd(TwoCellCase):
 		assert_equal(self.cell_one.valid, True)
 		assert_equal(self.cell_two.valid, True)
 
-		assert_equal(self.cell_one.status, Status.OK)
-		assert_equal(self.cell_two.status, Status.ALREADY_VALID)
+		assert_equal(self.cell_one.status, MazeCell.Status.OK)
+		assert_equal(self.cell_two.status, MazeCell.Status.ALREADY_VALID)
 
 		assert_equal(self.cell_one.is_dead_end(), False)
 		assert_equal(self.cell_two.is_dead_end(), True)
@@ -218,7 +218,7 @@ class NetworkMazeCase(TestCase):
 			attempts += 1
 
 	def test_network_maze(self):
-		assert_gt(self.random_route.travel_time(), 10)s
+		assert_gt(self.random_route.travel_time(), 10)
 		assert_equals(self.first_route.travel_time(), 30)
 		assert_not_equal(self.random_route.travel_time(), self.first_route.travel_time())
 		assert_not_equal(self.random_route.travel_time(), self.random_travel_time)
