@@ -8,8 +8,10 @@ Date: 9/13/13
 
 """
 
+import itertools
 import sys
 
+from mock import patch
 from testify import *
  	
 from maze import *
@@ -134,6 +136,7 @@ class TwoCellConnected(TwoCellCase):
 		
 
 
+
 class FourCellTestCase(TestCase):
 	@class_setup
 	def four_cell_inits(self):
@@ -194,6 +197,10 @@ class NetworkMazeCase(TestCase):
 				MazeCell(), MazeCell(), MazeCell(), MazeCell(), MazeCell()]
 		self.maze = Maze()
 	
+	def random_patched_method(self, collec):
+		return self.cells[8]
+
+
 	@setup
 	def connect_network_maze(self):
 		for start in self.cells:
@@ -205,23 +212,15 @@ class NetworkMazeCase(TestCase):
 			start.add_passages(passages)
 
 		self.maze.add_cells(self.cells)
-		self.random_route = self.maze.route_random(self.cells[5])
+		with patch.object(self.maze, 'grab_random', self.random_patched_method):
+			self.random_route = self.maze.route_random(self.cells[5])
+
 		self.first_route = self.maze.route_first(self.cells[5])
 
-		attempts = 0
-		while attempts < 100 and self.first_route.travel_time() == self.random_route.travel_time():
-			self.random_route = self.maze.route_random(self.cells[5])
-			attempts += 1
-
-		self.random_travel_time = self.random_route.travel_time_random()
-		attempts = 0
-		while attempts < 100 and self.random_route.travel_time() == self.random_travel_time:
-			self.random_travel_time = self.random_route.travel_time_random()
-			attempts += 1
-
+		
 	def test_network_maze(self):
 		assert_not_equal(self.random_route.travel_time(), self.first_route.travel_time())
-		assert_not_equal(self.random_route.travel_time(), self.random_travel_time)
+		assert_not_equal(self.first_route.travel_time(), self.first_route.travel_time_random())
 
 	def test_network_average_time_case(self):
 		assert_equals(self.maze.check_valid_exit(self.exit), True)

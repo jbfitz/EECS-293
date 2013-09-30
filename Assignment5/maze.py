@@ -279,13 +279,25 @@ class Maze(object):
 			return False
 
 	def grab_first(self, cells):
+		"""
+		Method to grab the first cell in a collection.
+		Passed as a method argument when a next_cell_method is called for
+		"""
 		gtr = operator.itemgetter(0)
 		return gtr(cells)
 
 	def grab_greedy(self, cells):
+		"""
+		Method to grab the lowest valued cell in a collection.
+		Passed as a method argument when a next_cell_method is called for
+		"""
 		return min(cells)
 
 	def grab_random(self, cells):
+		"""
+		Method to grab the cell in a collection.
+		Passed as a method argument when a next_cell_method is called for
+		"""
 		return random.choice(cells)
 
 	def route_random(self, initial_cell):
@@ -345,6 +357,12 @@ class Maze(object):
 
 
 	def average_exit_time(self, exit_cell, next_cell_method):
+		"""
+		Returns the average time it takes to reach the specified exit
+		given a particular method of selecting the next cells.
+
+		Returns MAX_VALUE if the exit is unreachable from any of the cells
+		"""
 		route_times = []
 		for cell in self._cells:
 			current_route = self.route(cell, next_cell_method)
