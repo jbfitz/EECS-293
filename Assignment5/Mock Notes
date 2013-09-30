@@ -1,0 +1,4 @@
+with mock.pathc.object(maze.random, 'random', lambda: 3):
+	random.random()
+
+
