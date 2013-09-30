@@ -362,7 +362,11 @@ class Maze(object):
 		given a particular method of selecting the next cells.
 
 		Returns MAX_VALUE if the exit is unreachable from any of the cells
+
+		Raises UnitializedObjectException if the maze is invalid
 		"""
+		self.valid_or_raise()
+	
 		route_times = []
 		for cell in self._cells:
 			current_route = self.route(cell, next_cell_method)
