@@ -370,6 +370,8 @@ class Maze(object):
 		route_times = []
 		for cell in self._cells:
 			current_route = self.route(cell, next_cell_method)
+			if(current_route.travel_time() == MAX_VALUE):
+				return MAX_VALUE
 			route_times.append(current_route.travel_time())
 
 		return sum(route_times)/len(route_times)

@@ -88,6 +88,7 @@ class TwoCellDeadEnd(TwoCellCase):
 		
 		assert_equal(self.cell_one.passage_time_to(self.cell_two), 10)
 		assert_equal(self.cell_two.passage_time_to(self.cell_one), sys.maxint)
+
 	
 	def test_impossible_route(self):
 		assert_equals(self.route_two.valid, True)

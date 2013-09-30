@@ -366,6 +366,7 @@ class Maze(object):
 		Raises UnitializedObjectException if the maze is invalid
 		"""
 		self.valid_or_raise()
+	
 		route_times = []
 		for cell in self._cells:
 			current_route = self.route(cell, next_cell_method)

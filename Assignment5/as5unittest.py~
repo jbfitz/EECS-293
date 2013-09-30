@@ -198,7 +198,7 @@ class NetworkMazeCase(TestCase):
 		self.maze = Maze()
 	
 	def random_patched_method(self, collec):
-		return self.cells[8]
+		return self.cells[4]
 
 
 	@setup
